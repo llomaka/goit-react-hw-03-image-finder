@@ -1,0 +1,39 @@
+.form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  font: inherit;
+  padding: 8px;
+  background-color: #7514F6;
+}
+
+.input {
+  min-width: 250px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-color: transparent;
+  border-radius: 5px;
+}
+
+.button {
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-color: transparent;
+  border-radius: 5px;
+  background-color: #95F614;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button:hover, .button:focus {
+  background-color: #70B90F;
+}
