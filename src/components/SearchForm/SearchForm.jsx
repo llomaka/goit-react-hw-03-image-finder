@@ -1,14 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./SearchForm.module.css";
 
 export default class SearchForm extends Component {
-  state = {
-    searchQuery: '',
+  static propTypes = {
+    searchQuery: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
   };
-
-  onChange = (event) => {
-    this.setState({searchQuery: event.target.value})
-  }
 
   onSubmit = (event) => {
     event.preventDefault();
@@ -16,6 +14,7 @@ export default class SearchForm extends Component {
   };
 
   render() {
+    const { searchQuery, onChange } = this.props;
     return (
       <form
         className={styles.form}
@@ -25,10 +24,10 @@ export default class SearchForm extends Component {
           className={styles.input}
           type="text"
           name="searchQuery"
-          autocomplete="off"
+          autoComplete="off"
           placeholder="Search images..."
-          onChange={this.onChange}
-          value={this.state.searchQuery}
+          onChange={onChange}
+          value={searchQuery}
         />
         <button
           className={styles.button}

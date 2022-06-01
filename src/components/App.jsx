@@ -1,8 +1,17 @@
 import React, { Component } from "react";
 import SearchForm from "./SearchForm";
 // import Gallery from "./Gallery";
+// import { fetchPictures } from "./pixabayAPI";
 
 export default class App extends Component {
+  state = {
+    searchQuery: '',
+  };
+
+  onChange = (event) => {
+    this.setState({ searchQuery: event.target.value })
+  };
+
   render() {
     return (
     <div
@@ -15,7 +24,12 @@ export default class App extends Component {
         color: '#010101'
       }}
     >
-      <SearchForm />
+        <SearchForm
+          searchQuery={this.state.searchQuery}
+          onChange={this.onChange}
+        />
+        {/* <Gallery /> */}
+
     </div>
   )};
 }
