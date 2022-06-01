@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-import SearchForm from "./SearchForm";
-// import Gallery from "./Gallery";
+import { SpinnerDotted } from "spinners-react";
+import Searchbar from "./Searchbar";
+// import ImageGallery from "./ImageGallery";
+import Button from "./Button";
 // import { fetchPictures } from "./pixabayAPI";
+import styles from "./App.module.css";
 
 export default class App extends Component {
   state = {
     searchQuery: '',
+    page: 1,
   };
 
   onChange = (event) => {
@@ -15,21 +19,23 @@ export default class App extends Component {
   render() {
     return (
     <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
+      className={styles.container}
     >
-        <SearchForm
+        <Searchbar
           searchQuery={this.state.searchQuery}
           onChange={this.onChange}
         />
-        {/* <Gallery /> */}
-
+        <SpinnerDotted
+          size='80'
+          color='#490D9A'
+        />
+        {/* <SpinnerDotted enabled={false} /> */}
+        {/* <ImageGallery /> */}
+        <Button
+          text="Load more"
+          handleClick={this.fetchPictures}
+          page={this.state.page}
+        />
     </div>
   )};
 }

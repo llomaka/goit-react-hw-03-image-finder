@@ -1,10 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'https://pixabay.com/api';
-const AUTH_TOKEN = '?key=24511799-4a7f974650a4e56ef46644e1e&q=';
-const PARAMS = '&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=';
-
-export async function fetchPictures(input, pageCounter = 1) {
-  const data = await axios(AUTH_TOKEN + input + PARAMS + pageCounter);
+export async function fetchPictures(input, page = 1) {
+  const data = await axios(`https://pixabay.com/api/?q=${input}&page=${page}&key=24511799-4a7f974650a4e56ef46644e1e&image_type=photo&orientation=horizontal&per_page=12`);
   return data;
 }

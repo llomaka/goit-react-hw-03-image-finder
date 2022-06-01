@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./Gallery.module.css";
+import ImageGalleryItem from "./ImageGalleryItem";
+import styles from "./ImageGallery.module.css";
 
-export default class Gallery extends Component {
+export default class ImageGallery extends Component {
   static propTypes = {
     images: PropTypes.arrayOf(
       PropTypes.shape({
@@ -19,20 +20,10 @@ export default class Gallery extends Component {
     return (
       <ul className={styles.gallery}>
         {images.map(image => (
-          <li
+          <ImageGalleryItem
             key={image.id}
-            className={styles.gallery__item}
-          >
-            <a
-              href={image.largeImageURL}
-            >
-              <img
-                className={styles.gallery__image}
-                src={image.webformatURL}
-                alt={image.tags}
-                />
-            </a>
-          </li>
+            image={image}
+          />
         ))}
       </ul>
     )
