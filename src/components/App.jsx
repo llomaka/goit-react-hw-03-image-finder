@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { SpinnerDotted } from "spinners-react";
 import Searchbar from "./Searchbar";
 // import ImageGallery from "./ImageGallery";
+import Loader from "./Loader";
 import Button from "./Button";
-// import { fetchPictures } from "./pixabayAPI";
+// import { fetchPictures } from "./services/pixabayAPI";
 import styles from "./App.module.css";
+
 
 export default class App extends Component {
   state = {
@@ -25,11 +26,9 @@ export default class App extends Component {
           searchQuery={this.state.searchQuery}
           onChange={this.onChange}
         />
-        <SpinnerDotted
-          size='80'
-          color='#490D9A'
+        <Loader
+          isEnabled={true}
         />
-        {/* <SpinnerDotted enabled={false} /> */}
         {/* <ImageGallery /> */}
         <Button
           text="Load more"
