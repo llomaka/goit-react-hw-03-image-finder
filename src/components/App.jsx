@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Searchbar from "./Searchbar";
 import ImageGallery from "./ImageGallery";
 import images from "./images.json";
-import Loader from "./Loader";
+// import Loader from "./Loader";
 // import Button from "./Button";
 // import { fetchPictures } from "./services/pixabayAPI";
 import styles from "./App.module.css";
@@ -27,9 +27,9 @@ export default class App extends Component {
           searchQuery={this.state.searchQuery}
           onChange={this.onChange}
         />
-        <Loader
+        {/* <Loader
           isEnabled={true}
-        />
+        /> */}
         <ImageGallery images={images}/>
         {/* <Button
           text="Load more"

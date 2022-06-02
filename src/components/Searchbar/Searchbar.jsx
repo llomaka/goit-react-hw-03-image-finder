@@ -22,7 +22,7 @@ export default class Searchbar extends Component {
           onSubmit={this.onSubmit}
         >
           <button type="submit" className={styles.button}>
-            <span className="button-label visually-hidden">Search</span>
+            <span className={styles.label}>Search</span>
           </button>
           <input
             className={styles.input}
