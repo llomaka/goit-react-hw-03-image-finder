@@ -6,11 +6,13 @@ export default class Searchbar extends Component {
   static propTypes = {
     searchQuery: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onSearchClick: PropTypes.func.isRequired,
   };
 
   onSubmit = (event) => {
+    const { onSearchClick } = this.props;
     event.preventDefault();
-    console.log(this.props.searchQuery);
+    onSearchClick();
   };
 
   render() {

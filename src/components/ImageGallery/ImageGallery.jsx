@@ -42,15 +42,21 @@ export default class ImageGallery extends Component {
     const { images } = this.props;
     return (
       <>
-      <ul className={styles.gallery}>
-        {images.map(image => (
-          <ImageGalleryItem
-            key={image.id}
-            image={image}
-            showModal={this.showModal}
-          />
-        ))}
-      </ul>
+        <ul className={styles.gallery}>
+          {images.map(image => (
+            <li
+              key={image.id}
+              className={styles.gallery__item}
+            >
+              <ImageGalleryItem
+                webformatURL={image.webformatURL}
+                largeImageURL={image.largeImageURL}
+                tags={image.tags}
+                showModal={this.showModal}
+              />
+            </li>
+          ))}
+        </ul>
         {this.state.showModal && <Modal
           largeImageURL={this.state.largeImageURL}
           tags={this.state.tags}

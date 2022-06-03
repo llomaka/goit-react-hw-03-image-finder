@@ -4,28 +4,21 @@ import styles from "./ImageGalleryItem.module.css";
 
 export default class ImageGalleryItem extends Component {
   static propTypes = {
-    image: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      largeImageURL: PropTypes.string.isRequired,
-      webformatURL: PropTypes.string.isRequired,
-      tags: PropTypes.string.isRequired,
-    })
+    webformatURL: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+    showModal: PropTypes.func.isRequired,
   };
 
   render() {
-    const { image: {id, webformatURL, largeImageURL, tags}, showModal } = this.props;
+    const { webformatURL, largeImageURL, tags, showModal } = this.props;
     return (
-      <li
-        id={id}
-        className={styles.gallery__item}
-      >
-        <img
-          className={styles.gallery__image}
-          src={webformatURL}
-          alt={tags}
-          onClick={() => showModal({largeImageURL, tags})}
-          />
-      </li>
+      <img
+        className={styles.gallery__image}
+        src={webformatURL}
+        alt={tags}
+        onClick={() => showModal({largeImageURL, tags})}
+      />
     )
   }
 }
