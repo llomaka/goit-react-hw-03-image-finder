@@ -6,11 +6,14 @@ export default class Modal extends Component {
   componentWillUnmount() { }
 
   render() {
-    const { children } = this.props;
+    const { largeImageURL, tags , closeModal } = this.props;
     return (
-      <div className={styles.backdrop}>
+      <div className={styles.backdrop} onClick={closeModal}>
         <div className={styles.modal}>
-          {children}
+          <img
+            src={largeImageURL}
+            alt={tags}
+          />
         </div>
       </div>
     )
