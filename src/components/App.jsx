@@ -41,8 +41,9 @@ export default class App extends Component {
     this.setState({ isLoading: true });
     fetchPictures(this.state.searchQuery, this.state.page + 1)
       .then(data => {
-        this.setState({ images: data.hits });
-        console.log(data);
+        this.setState(prevstate => ({
+          images: [...prevstate.images, ...data.hits]
+        }));
       })
       .catch(error => console.log(error))
       .finally(this.setState(prevState => ({
