@@ -14,6 +14,10 @@ export default class Loader extends Component {
         enabled={isEnabled}
         size='80'
         color='#490D9A'
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto'
+        }}
       />
     )
   }

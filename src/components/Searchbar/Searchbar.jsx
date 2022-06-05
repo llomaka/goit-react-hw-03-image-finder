@@ -1,22 +1,30 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { toast } from 'react-toastify';
 import styles from "./Searchbar.module.css";
 
 export default class Searchbar extends Component {
+  state = {
+    searchQuery: '',
+  };
+
   static propTypes = {
-    searchQuery: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
     onSearchClick: PropTypes.func.isRequired,
+  };
+
+  onChange = (event) => {
+    this.setState({ searchQuery: event.target.value })
   };
 
   onSubmit = (event) => {
     const { onSearchClick } = this.props;
     event.preventDefault();
-    onSearchClick();
+    if (this.state.searchQuery.trim() === '') return toast.warning("Enter search query text!");
+    onSearchClick(this.state.searchQuery);
+    this.setState({ searchQuery: '' })
   };
 
   render() {
-    const { searchQuery, onChange } = this.props;
     return (
       <header className={styles.header}>
         <form
@@ -33,8 +41,8 @@ export default class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            onChange={onChange}
-            value={searchQuery}
+            onChange={this.onChange}
+            value={this.state.searchQuery}
           />
         </form>
       </header>
