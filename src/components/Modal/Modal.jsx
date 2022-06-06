@@ -21,7 +21,9 @@ export default class Modal extends Component {
   }
 
   handleKeydown = event => {
-    if (event.code === "Escape") this.props.closeModal();
+    if (event.code === "Escape") {
+      this.props.closeModal();
+    };
   };
 
   handleBackdropClick = event => {
@@ -33,7 +35,7 @@ export default class Modal extends Component {
   render() {
     const { largeImageURL, tags } = this.props;
     return createPortal(
-      <div className={styles.backdrop} id="backdrop" onClick={this.handleBackdropClick}>
+      <div className={styles.backdrop} onClick={this.handleBackdropClick}>
         <div className={styles.modal}>
           <img
             src={largeImageURL}
