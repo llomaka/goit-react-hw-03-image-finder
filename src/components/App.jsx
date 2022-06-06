@@ -49,8 +49,7 @@ export default class App extends Component {
   onLoadMoreClick = () => {
     fetchPictures(this.state.searchQuery, this.state.page + 1)
       .then(data => {
-        const newImages = [...this.state.images, ...data.hits];
-        this.setState(prevState => ({ images: newImages, page: prevState.page + 1, status: Status.RESOLVED }))
+        this.setState(prevState => ({ images: [...this.state.images, ...data.hits], page: prevState.page + 1, status: Status.RESOLVED }))
       })
       .catch(error => this.setState({ error: error, status: Status.REJECTED }));
   };
