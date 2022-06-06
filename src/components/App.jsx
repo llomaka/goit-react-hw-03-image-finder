@@ -32,13 +32,13 @@ export default class App extends Component {
       .then(data => {
         if (data.totalHits === 0) {
           toast.error(`${this.state.searchQuery} not found!`);
-          this.setState({ error: `${this.state.searchQuery} not found!`, status: Status.REJECTED });
+          this.setState({ error: `${this.state.searchQuery} not found!`, status: Status.REJECTED, page: 1 });
         }
         else if (data.hits) {
-          this.setState({ images: data.hits, totalHits: data.totalHits, status: Status.RESOLVED })
+          this.setState({ images: data.hits, totalHits: data.totalHits, status: Status.RESOLVED, page: 1, error: null })
         }
       })
-      .catch(error => this.setState({ error: error, status: Status.REJECTED }));
+      .catch(error => this.setState({ error: error, status: Status.REJECTED, page: 1 }));
     }
   };
 
@@ -50,7 +50,7 @@ export default class App extends Component {
     fetchPictures(this.state.searchQuery, this.state.page + 1)
       .then(data => {
         const newImages = [...this.state.images, ...data.hits];
-        this.setState({ images: newImages, page: this.state.page + 1, status: Status.RESOLVED })
+        this.setState(prevState => ({ images: newImages, page: prevState.page + 1, status: Status.RESOLVED }))
       })
       .catch(error => this.setState({ error: error, status: Status.REJECTED }));
   };
