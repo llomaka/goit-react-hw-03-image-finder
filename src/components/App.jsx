@@ -8,60 +8,55 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './App.module.css';
 
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
 
 export default class App extends Component {
   state = {
     searchQuery: '',
     page: 1,
-    isButtonShown: false,
     images: [],
-    isLoading: false,
+    totalHits: null,
     error: null,
-    status: 'idle', //'pending', 'resolved', 'rejected'
+    status: Status.IDLE,
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
-    this.setState({isLoading: true});
+    this.setState({status: Status.PENDING, images: []});
     fetchPictures(this.state.searchQuery, this.state.page)
       .then(data => {
-        if(data.totalHits === 0) { toast.error(`${this.state.searchQuery} not found!`) }
+        if (data.totalHits === 0) {
+          toast.error(`${this.state.searchQuery} not found!`);
+          this.setState({ error: `${this.state.searchQuery} not found!`, status: Status.REJECTED });
+        }
         else if (data.hits) {
-          this.setState({ images: data.hits })
+          this.setState({ images: data.hits, totalHits: data.totalHits, status: Status.RESOLVED })
         }
       })
-      .catch(error => this.setState({ error: error }))
-      .finally(() => this.setState({
-        isLoading: false,
-        // isButtonShown: true,
-        page: 1,
-      }));
+      .catch(error => this.setState({ error: error, status: Status.REJECTED }));
     }
   };
 
   onSearchClick = searchQuery => {
-    this.setState({
-      searchQuery: searchQuery
-    });
+    this.setState({ searchQuery: searchQuery });
   };
 
   onLoadMoreClick = () => {
-    this.setState({ isLoading: true });
-    // fetchPictures(this.state.searchQuery, this.state.page + 1)
-    //   .then(data => {
-    //     this.setState(prevstate => ({
-    //       images: [...prevstate.images, ...data.hits]
-    //     }));
-    //   })
-    //   .catch(error => console.log(error))
-    //   .finally(() => this.setState(prevState => ({
-    //     isLoading: false,
-    //     isButtonShown: true,
-    //     page: prevState.page + 1,
-    //   })))
+    fetchPictures(this.state.searchQuery, this.state.page + 1)
+      .then(data => {
+        const newImages = [...this.state.images, ...data.hits];
+        this.setState({ images: newImages, page: this.state.page + 1, status: Status.RESOLVED })
+      })
+      .catch(error => this.setState({ error: error, status: Status.REJECTED }));
   };
 
   render() {
+    const { images, error, status, page, totalHits } = this.state;
     return (
     <div
       className={styles.container}
@@ -69,14 +64,9 @@ export default class App extends Component {
         <Searchbar
           onSearchClick={this.onSearchClick}
         />
-        {this.state.isLoading && (<Loader
-          isEnabled={this.state.isLoading}
-        />)}
-        {!this.state.isLoading && this.state.images && (<ImageGallery images={this.state.images} />)}
-        {this.state.isButtonShown && (<Button
-          text='Load more'
-          handleClick={this.onLoadMoreClick}
-        />)}
+        {status === Status.PENDING && (<Loader />)}
+        {status !== Status.PENDING && images && (<ImageGallery images={images} />)}
+        {status === Status.RESOLVED && totalHits/12 > page && (<Button text='Load more' handleClick={this.onLoadMoreClick} />)}
         <ToastContainer />
     </div>
   )};
