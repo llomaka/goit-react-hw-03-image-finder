@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ImageGalleryItem from "./ImageGalleryItem";
 import Modal from "components/Modal";
+import {RemoveScroll} from 'react-remove-scroll';
 import styles from "./ImageGallery.module.css";
 
 export default class ImageGallery extends Component {
@@ -35,7 +36,7 @@ export default class ImageGallery extends Component {
       showModal: false,
       largeImageURL: '',
       tags: ''
-    })
+    });
   }
 
   render() {
@@ -57,11 +58,13 @@ export default class ImageGallery extends Component {
             </li>
           ))}
         </ul>
-        {this.state.showModal && <Modal
+        {this.state.showModal && <RemoveScroll>
+          <Modal
           largeImageURL={this.state.largeImageURL}
           tags={this.state.tags}
           closeModal={this.closeModal}
-        />}
+          />
+        </RemoveScroll>}
       </>
     )
   };

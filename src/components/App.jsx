@@ -28,7 +28,7 @@ export default class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
     this.setState({status: Status.PENDING, images: []});
-    fetchPictures(this.state.searchQuery, this.state.page)
+    fetchPictures(this.state.searchQuery, 1)
       .then(data => {
         if (data.totalHits === 0) {
           toast.error(`${this.state.searchQuery} not found!`);
@@ -56,7 +56,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { images, error, status, page, totalHits } = this.state;
+    const { images, status, page, totalHits } = this.state;
     return (
     <div
       className={styles.container}
