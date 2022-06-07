@@ -56,6 +56,7 @@ export default class App extends Component {
 
   render() {
     const { images, status, page, totalHits } = this.state;
+    const totalPages = totalHits / 12;
     return (
     <div
       className={styles.container}
@@ -65,7 +66,7 @@ export default class App extends Component {
         />
         {status === Status.PENDING && (<Loader />)}
         {status === Status.RESOLVED && images && (<ImageGallery images={images} />)}
-        {status === Status.RESOLVED && totalHits/12 > page && (<Button text='Load more' handleClick={this.onLoadMoreClick} />)}
+        {status === Status.RESOLVED && totalPages > page && (<Button text='Load more' handleClick={this.onLoadMoreClick} />)}
         <ToastContainer />
     </div>
   )};
