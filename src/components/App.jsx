@@ -26,7 +26,7 @@ export default class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
+    if (prevState.searchQuery.toLowerCase() !== this.state.searchQuery.toLowerCase()) {
     this.setState({status: Status.PENDING, images: []});
     fetchPictures(this.state.searchQuery, 1)
       .then(data => {
