@@ -65,7 +65,7 @@ export default class App extends Component {
           onSearchClick={this.onSearchClick}
         />
         {status === Status.PENDING && (<Loader />)}
-        {status === Status.RESOLVED && images && (<ImageGallery images={images} />)}
+        {status === Status.RESOLVED && (<ImageGallery images={images} />)}
         {status === Status.RESOLVED && totalPages > page && (<Button text='Load more' handleClick={this.onLoadMoreClick} />)}
         <ToastContainer />
     </div>
