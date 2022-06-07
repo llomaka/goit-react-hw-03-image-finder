@@ -29,18 +29,18 @@ export default class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery.toLowerCase() !== this.state.searchQuery.toLowerCase()) {
-    this.setState({status: Status.PENDING, images: []});
+    this.setState({status: Status.PENDING, images: [], page: 1 });
     fetchPictures(this.state.searchQuery, 1)
       .then(data => {
         if (data.totalHits === 0) {
           toast.error(`${this.state.searchQuery} not found!`);
-          this.setState({ error: `${this.state.searchQuery} not found!`, status: Status.REJECTED, page: 1 });
+          this.setState({ error: `${this.state.searchQuery} not found!`, status: Status.REJECTED });
         }
         else if (data.hits) {
-          this.setState({ images: data.hits, totalHits: data.totalHits, status: Status.RESOLVED, page: 1, error: null })
+          this.setState({ images: data.hits, totalHits: data.totalHits, status: Status.RESOLVED, error: null })
         }
       })
-      .catch(error => this.setState({ error: error, status: Status.REJECTED, page: 1 }));
+      .catch(error => this.setState({ error: error, status: Status.REJECTED }));
     }
     if (this.bottomRef.current && this.state.page > 1) {
       this.bottomRef.current.scrollIntoView(false);
