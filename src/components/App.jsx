@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
@@ -25,6 +25,8 @@ export default class App extends Component {
     status: Status.IDLE,
   };
 
+  bottomRef = createRef();
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery.toLowerCase() !== this.state.searchQuery.toLowerCase()) {
     this.setState({status: Status.PENDING, images: []});
@@ -40,6 +42,9 @@ export default class App extends Component {
       })
       .catch(error => this.setState({ error: error, status: Status.REJECTED, page: 1 }));
     }
+    if (this.bottomRef.current && this.state.page > 1) {
+      this.bottomRef.current.scrollIntoView();
+    }
   };
 
   onSearchClick = searchQuery => {
@@ -47,9 +52,10 @@ export default class App extends Component {
   };
 
   onLoadMoreClick = () => {
+    this.setState({status: Status.PENDING});
     fetchPictures(this.state.searchQuery, this.state.page + 1)
       .then(data => {
-        this.setState(prevState => ({ images: [...this.state.images, ...data.hits], page: prevState.page + 1, status: Status.RESOLVED }))
+        this.setState(prevState => ({ images: [...this.state.images, ...data.hits], page: prevState.page + 1, status: Status.RESOLVED }));
       })
       .catch(error => this.setState({ error: error, status: Status.REJECTED }));
   };
@@ -67,7 +73,7 @@ export default class App extends Component {
         {status === Status.PENDING && (<Loader />)}
         {status === Status.RESOLVED && (<ImageGallery images={images} />)}
         {status === Status.RESOLVED && totalPages > page && (<Button text='Load more' handleClick={this.onLoadMoreClick} />)}
-        <ToastContainer />
+        <ToastContainer ref={this.bottomRef} />
     </div>
   )};
 }

@@ -9,8 +9,10 @@ export default class Loader extends Component {
         size='80'
         color='#490D9A'
         style={{
-          marginLeft: 'auto',
-          marginRight: 'auto'
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)"
         }}
       />
     )
