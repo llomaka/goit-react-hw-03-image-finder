@@ -43,7 +43,7 @@ export default class App extends Component {
       .catch(error => this.setState({ error: error, status: Status.REJECTED, page: 1 }));
     }
     if (this.bottomRef.current && this.state.page > 1) {
-      this.bottomRef.current.scrollIntoView();
+      this.bottomRef.current.scrollIntoView(false);
     }
   };
 
