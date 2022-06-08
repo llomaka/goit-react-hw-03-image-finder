@@ -28,7 +28,7 @@ export default class App extends Component {
   bottomRef = createRef();
 
   componentDidUpdate(prevProps, prevState) {
-    if ((prevState.searchQuery.toLowerCase() !== this.state.searchQuery.toLowerCase()) || (prevState.page !== this.state.page)) {
+    if (prevState.page !== this.state.page || prevState.searchQuery !== this.state.searchQuery) {
     this.setState({status: Status.PENDING });
     fetchPictures(this.state.searchQuery, this.state.page)
       .then(data => {
@@ -48,6 +48,7 @@ export default class App extends Component {
   };
 
   onSearchClick = searchQuery => {
+    if (searchQuery.toLowerCase() === this.state.searchQuery.toLowerCase()) return;
     this.setState({searchQuery: searchQuery, images: [], page: 1});
   };
 
