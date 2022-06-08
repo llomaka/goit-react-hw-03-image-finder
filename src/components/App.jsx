@@ -28,19 +28,19 @@ export default class App extends Component {
   bottomRef = createRef();
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery.toLowerCase() !== this.state.searchQuery.toLowerCase()) {
-    this.setState({status: Status.PENDING, images: [], page: 1 });
-    fetchPictures(this.state.searchQuery, 1)
+    if ((prevState.searchQuery.toLowerCase() !== this.state.searchQuery.toLowerCase()) || (prevState.page !== this.state.page)) {
+    this.setState({status: Status.PENDING });
+    fetchPictures(this.state.searchQuery, this.state.page)
       .then(data => {
         if (data.totalHits === 0) {
           toast.error(`${this.state.searchQuery} not found!`);
-          this.setState({ error: `${this.state.searchQuery} not found!`, status: Status.REJECTED });
+          this.setState({error: `${this.state.searchQuery} not found!`, status: Status.REJECTED});
         }
-        else if (data.hits) {
-          this.setState({ images: data.hits, totalHits: data.totalHits, status: Status.RESOLVED, error: null })
+        else {
+          this.setState(prevState => ({images: [...prevState.images, ...data.hits], status: Status.RESOLVED, totalHits: data.totalHits, error: null}));
         }
       })
-      .catch(error => this.setState({ error: error, status: Status.REJECTED }));
+      .catch(error => this.setState({error: error, status: Status.REJECTED}));
     }
     if (this.bottomRef.current && this.state.page > 1) {
       this.bottomRef.current.scrollIntoView(false);
@@ -48,16 +48,11 @@ export default class App extends Component {
   };
 
   onSearchClick = searchQuery => {
-    this.setState({ searchQuery: searchQuery });
+    this.setState({searchQuery: searchQuery, images: [], page: 1});
   };
 
   onLoadMoreClick = () => {
-    this.setState({status: Status.PENDING});
-    fetchPictures(this.state.searchQuery, this.state.page + 1)
-      .then(data => {
-        this.setState(prevState => ({ images: [...this.state.images, ...data.hits], page: prevState.page + 1, status: Status.RESOLVED }));
-      })
-      .catch(error => this.setState({ error: error, status: Status.REJECTED }));
+    this.setState(prevState => ({page: prevState.page + 1}));
   };
 
   render() {
@@ -70,8 +65,8 @@ export default class App extends Component {
         <Searchbar
           onSearchClick={this.onSearchClick}
         />
+        {this.state.images && (<ImageGallery images={images} />)}
         {status === Status.PENDING && (<Loader />)}
-        {status === Status.RESOLVED && (<ImageGallery images={images} />)}
         {status === Status.RESOLVED && totalPages > page && (<Button text='Load more' handleClick={this.onLoadMoreClick} />)}
         <ToastContainer ref={this.bottomRef} />
     </div>

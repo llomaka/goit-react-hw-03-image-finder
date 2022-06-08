@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Button.module.css';
 
 export default class Button extends Component {
@@ -13,11 +13,11 @@ export default class Button extends Component {
     return (
       <button
         className={styles.button}
-        type="button"
+        type='button'
         onClick={handleClick}
       >
         {text}
       </button>
     )
-  }
+  };
 }

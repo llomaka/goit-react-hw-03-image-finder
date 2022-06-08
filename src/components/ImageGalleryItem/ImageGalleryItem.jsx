@@ -20,5 +20,5 @@ export default class ImageGalleryItem extends Component {
         onClick={() => showModal({largeImageURL, tags})}
       />
     )
-  }
+  };
 }

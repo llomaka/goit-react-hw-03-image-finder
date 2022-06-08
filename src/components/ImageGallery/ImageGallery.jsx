@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import ImageGalleryItem from "./ImageGalleryItem";
-import Modal from "components/Modal";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ImageGalleryItem from '../ImageGalleryItem';
+import Modal from '../Modal';
 import {RemoveScroll} from 'react-remove-scroll';
-import styles from "./ImageGallery.module.css";
+import styles from './ImageGallery.module.css';
 
 export default class ImageGallery extends Component {
   state = {
@@ -37,7 +37,7 @@ export default class ImageGallery extends Component {
       largeImageURL: '',
       tags: ''
     });
-  }
+  };
 
   render() {
     const { images } = this.props;
